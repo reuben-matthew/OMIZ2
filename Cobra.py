@@ -10,11 +10,11 @@ import numpy as np
 from savReaderWriter import *
 
 #read spss.sav file
-with SavReader(r'X:\OMIZ2\June_2018\Data_Cleaning\All_Surveys\Omi final_weights_v3_R.sav',ioUtf8=True,returnHeader=True) as reader:
+with SavReader(r'X:\OMIZ2\March_2018\Data_Cleaning\All_Surveys\Omi final_weights_v4_R.sav',ioUtf8=True,returnHeader=True) as reader:
     records=reader.all()
 
 #read in meta data
-with SavHeaderReader(r'X:\OMIZ2\June_2018\Data_Cleaning\All_Surveys\Omi final_weights_v3_R.sav',ioUtf8=True) as header:
+with SavHeaderReader(r'X:\OMIZ2\March_2018\Data_Cleaning\All_Surveys\Omi final_weights_v4_R.sav',ioUtf8=True) as header:
    metadata = header.all()
 
 #get the info for value labels
@@ -141,6 +141,7 @@ def openended_all_many(questionIDs):
     oam_exceldf.columns=all_columns
     oam_exceldf = pd.concat([oam_exceldf.drop('N', axis=0), oam_exceldf.loc[['N'], :]], axis=0)
     oam_exceldf=oam_exceldf.drop(oam_exceldf.T[oam_exceldf.T['N']==0].index,axis=1)
+    
     
 #openended_all_many(['A2_1','A2_2','A2_3','A2_4','A2_5','A2_6','A2_7'])
 
@@ -675,7 +676,6 @@ def closeended_acad_many (questionIDs):
 #closeended_acad_many(['S7_1','S7_2','S7_3','S7_4','S7_5','S7_6'])
 
 
-
 while True:
     x=int(input('1) Are you creating tables for All(1) or Academies(2) ? '))
     if x == 1:
@@ -685,11 +685,13 @@ while True:
             if z==1:
                 a=int(input('3a) Is this table showing the other responses answer for a previous question? Yes(1) or No (2): '))
                 if a== 1:
-                    qID=list(input("Please type the Question IDs for this openended other responses table inside '', seperated with a comma e.g 'A2_1','A2_2',A2_3'...: "))
+                    qID=input("Please type the Question IDs for this openended other responses table inside '', seperated with a comma e.g 'A2_1','A2_2',A2_3'...: ")
+                    qID=qID.split('\n')
                     openended_all_responses(qID)
                     break
                 if a==2:
-                    qID=list(input("Please type the Question IDs for this openended multi question table inside '', seperated with a comma e.g 'A2_1','A2_2',A2_3'...: "))
+                    qID=input("Please type the Question IDs for this openended multi question table inside '', seperated with a comma e.g 'A2_1','A2_2',A2_3'...: ")
+                    qID=qID.split('\n')
                     openended_all_many(qID)
                     break
             if z==2:
@@ -699,16 +701,14 @@ while True:
         if y==2:
             z=int(input('3) Does this table contain more than one question e.g A2_1, A2_2, A2_3...  Yes(1) or No (2) ? '))
             if z==1:
-                qID=list(input("Please type the Question IDs for this closeended multi question table inside '', seperated with a comma e.g 'A2_1','A2_2',A2_3'...: "))
+                qID=input("Please type the Question IDs for this closeended multi question table inside '', seperated with a comma e.g 'A2_1','A2_2',A2_3'...: ")
+                qID=qID.split('\n')
                 closeended_all_many(qID)
                 break
             if z==2:
                 qID=str(input('Please type the Question ID for this closeended single question table for all types of schools: '))
                 closeended_all(qID)
                 break
-
-
-
 
 
 
